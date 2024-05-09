@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login Minimalista</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/recuperar.css') }}">
+</head>
+<body>
+<div class="login-container">
+    <form class="login-form" action="/" method="post">
+        <input type="email" placeholder="Email" name="email" required>
+        <div class="options">
+            <button type="button">Send Password Reset Link</button> 
+        </div>
+        <div class="back">
+            <a href="{{ url_for('login') }}" class="sidebar-link">
+                <button type="button">Back</button>
+            </a>
+        </div>
+    </form>
+</div>
+</body>
+</html>

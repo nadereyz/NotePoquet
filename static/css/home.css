@@ -1,0 +1,59 @@
+/* home.css */
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Alinea al principio para que la barra lateral empiece desde arriba */
+  justify-content: center;
+  background-image: url('/static/images/cuadro.jpg'); /* Ajusta la ruta según la estructura de tus carpetas */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  font-size: 222px; 
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  width: 300px; /* Aumentado de 250px a 300px */
+}
+
+
+.sidebar-button,
+.function-button {
+  background-color: #1284e1;
+  color: white;
+  padding: 15px; /* Aumentado de 10px a 15px */
+  margin-bottom: 10px;
+  border: none;
+  border-radius: 5px;
+  width: 100%;
+  font-size: 16px; /* Fuente más grande para mejorar la legibilidad */
+}
+
+
+.workspace-image {
+  width: 150px; /* Ajusta esto según el tamaño deseado para la imagen */
+  height: auto;
+  margin-right: 20px; /* Espacio entre la imagen y la barra lateral */
+}
+
+.main-container {
+  display: flex;
+  align-items: start; /* Alinea los elementos al inicio verticalmente */
+  font-size: 14px; 
+}
+
+
+
+
+  
+
+ 
+
+

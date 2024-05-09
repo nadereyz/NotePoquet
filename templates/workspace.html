@@ -1,0 +1,157 @@
+    
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Notas</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/workspace.css') }}">
+    <link rel="stylesheet" crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css">  
+</head>
+<body>
+    <div class="container">
+        <div class="ventana">
+            <h1>{{ workspace_name }}</h1>
+        </div>
+    </div>
+
+    <div class="books-container">
+        <div class="book" style="background-color: aqua;">
+               <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Título</th>
+                        <th scope="col">Descripción</th>
+                        <th scope="col">ID</th>
+                        <th scope="col">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for task in tasks %}
+                    <tr>
+                        <td>{{ task.title }}</td>
+                        <td>{{ task.description }}</td>
+                        <td>{{ task.id }}</td>
+                        <td>
+                            <a href="{{ url_for('start_task', task_id=task.id) }}">Iniciar</a>
+                            <a href="{{ url_for('update_task', task_id=task.id) }}">Editar</a>
+                            <a href="{{ url_for('delete_task', task_id=task.id) }}">Eliminar</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <div class="cover">
+                <p>Nuevas tareas</p>
+            </div>
+        </div>
+
+        <div class="book1" style="background-color: yellow;">
+            <div class="book" style="background-color: aqua;">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Título</th>
+                            <th scope="col">Descripción</th>
+                            <th scope="col">ID</th>
+                            <th scope="col">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for task in tasks %}
+                            {% if task.status == 'En progreso' %}
+                            <tr>
+                                <td>{{ task.title }}</td>
+                                <td>{{ task.description }}</td>
+                                <td>{{ task.id }}</td>
+                                <td>
+                                		<a href="{{ url_for('finish_task', task_id=task.id) }}">Finalizar</a>
+                                    <a href="{{ url_for('update_task', task_id=task.id) }}">Editar</a>
+                                    <a href="{{ url_for('delete_task', task_id=task.id) }}">Eliminar</a>
+                                </td>
+                            </tr>
+                            {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <div class="cover">
+                    <p>En proceso</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="book2" style="background-color: chocolate;">
+            <div class="book" style="background-color: aqua;">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Título</th>
+                            <th scope="col">Descripción</th>
+                            <th scope="col">ID</th>
+                            <th scope="col">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for task in tasks %}
+                            {% if task.status == 'Finalizada' %}
+                            <tr>
+                                <td>{{ task.title }}</td>
+                                <td>{{ task.description }}</td>
+                                <td>{{ task.id }}</td>
+                                <td>
+                                    <a href="{{ url_for('update_task', task_id=task.id) }}">Editar</a>
+                                    <a href="{{ url_for('delete_task', task_id=task.id) }}">Eliminar</a>
+                                </td>
+                            </tr>
+                            {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <div class="cover">
+                    <p>Finalizada</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container1">
+        <!-- Botón que activa el modal para crear tareas -->
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#taskModal">Crear Tarea</button>
+        <button class="btn btn-primary">Invitar</button>
+        <button class="btn btn-primary">Exportar PDF</button>
+        <button class="btn btn-danger">Eliminar</button>
+        <a href="{{ url_for('login') }}" class="sidebar-link">
+            <button class="btn btn-primary">Cerrar sesión</button>
+        </a>
+    </div>
+
+    <div class="modal fade" id="taskModal" tabindex="-1" aria-labelledby="taskModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="taskModalLabel">Crear Nueva Tarea</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formulario-tareas-modal" action="{{ url_for('add_task') }}" method="POST">
+                        <div class="mb-3">
+                            <label for="title" class="form-label">Título de la tarea</label>
+                            <input type="text" class="form-control" id="title" name="title" placeholder="Título de la tarea" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Descripción de la tarea</label>
+                            <input type="text" class="form-control" id="description" name="description" placeholder="Descripción de la tarea" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Crear Tarea</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts necesarios para Bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='js/workspace.js') }}"></script>
+</body>
+</html>
+
