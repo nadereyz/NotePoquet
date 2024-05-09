@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/crear_workspace.css') }}">
+</head>
+<body>
+    <img src="{{ url_for('static', filename='images/NotePoquet1.png') }}" alt="Workspace curso Python" class="workspace-image">
+    <div class="main-container">
+        <div class="sidebar">
+            <div class="container">
+                <form action="{{ url_for('workspace') }}" method="post">
+                    <input type="text" name="workspace_name" placeholder="Name workspace" class="function-button">
+                    <input type="text" name="share" placeholder="Invitar Proyecto" class="function-button">
+                    <button type="submit" class="buton">Crear</button>
+                </form>
+                <div class="button-group">
+                    <a href="{{ url_for('home') }}" class="sidebar-link">
+                        <button type="button" class="buton">Atras</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+</body>
+</html>

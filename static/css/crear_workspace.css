@@ -1,0 +1,80 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start; /* Asegura que el contenido empiece desde la parte superior */
+  background-image: url('/static/images/cuadro.jpg'); /* Ajusta la ruta según la estructura de tus carpetas */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.workspace-image {
+  width: 230px; /* Ajusta el tamaño según tus necesidades */
+  height: auto;
+  margin-top: 230px; /* Espacio desde la parte superior de la página */
+}
+
+.main-container {
+  width: 100%; /* Toma todo el ancho disponible */
+  display: flex;
+  justify-content: center; /* Centra el contenido horizontalmente */
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 250px;
+  padding: 20px;
+}
+
+.sidebar-button, .function-button {
+  width: 100%; /* Ocupa todo el ancho de la barra lateral */
+  padding: 10px;
+  margin-bottom: 20px;
+  background-color: #1284e1;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.container {
+  display: flex;
+  flex-direction: column; /* Mantiene los elementos en columnas pero permite a los botones estar en la misma línea */
+  align-items: center; /* Centra los elementos horizontalmente */
+  text-align: center;
+}
+
+
+.buton {
+  width: 150px;
+  height: 60px;
+  text-align: center;
+  border: 3px solid #315cfd;
+  border-radius: 45px;
+  transition: all 0.3s;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.747);
+  font-size: 1.2em;
+  font-weight: 550;
+  font-family: 'Montserrat', sans-serif;
+  margin-bottom: 10px; /* Asegúrate de que haya suficiente espacio entre los botones */
+}
+
+.buton:hover {
+  background: #315cfd;
+  color: white;
+  font-size: 1.5em;
+}
+
+
+.function-button::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: white;
+  opacity: 1; 
+}
