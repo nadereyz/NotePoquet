@@ -1,6 +1,5 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, session
 from flask_sqlalchemy import SQLAlchemy
-import pandas as pd
 from db import db, init_db
 from sqlalchemy import Enum
 
@@ -59,11 +58,17 @@ def home():
 
 @app.route('/workspace', methods=['GET', 'POST'])
 def workspace():
-    workspace_name = 'Nombre Default del Workspace'
     if request.method == 'POST':
-        workspace_name = request.form.get('workspace_name', workspace_name)
+        workspace_name = request.form.get('workspace_name')
+        if workspace_name:
+            session['workspace_name'] = workspace_name
+    
+    workspace_name = session.get('workspace_name')
     tasks = Task.query.all()
     return render_template('workspace.html', workspace_name=workspace_name, tasks=tasks)
+
+
+
 
 
 @app.route('/workspace/<workspace_name>')
@@ -141,16 +146,6 @@ def crear_workspace():
 @app.route('/recuperar')
 def recuperar():
     return render_template('recuperar.html')
-
-@app.route('/trabajo')
-def trabajo():
-    df = pd.DataFrame({
-        'Tarea': ['Tarea 1', 'Tarea 2', 'Tarea 3', 'Tarea 4'],
-        'Fecha de entrega': ['2024-04-11', '2024-04-12', '2024-04-13', '2024-04-14'],
-        'Completada': [False, False, True, False]
-    })
-    tareas_no_completadas = df[df['Completada'] == False]
-    return render_template('trabajo.html', tareas_no_completadas=tareas_no_completadas)
 
 if __name__ == '__main__':
     with app.app_context():
