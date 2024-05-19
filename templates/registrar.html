@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/registrar.css') }}">
 </head>
 <body>
 <div class="login-container">
@@ -13,7 +13,24 @@
         <input type="email" placeholder="Correo electrónico" name="email" required>
         <input type="password" placeholder="Contraseña" name="password" pattern="(?=.*[A-Z]).{8,}" required title="La contraseña debe tener al menos 8 caracteres y la primera letra debe ser mayúscula.">
         <button type="submit">Crear cuenta</button>
+        <div class="back">
+            <a href="{{ url_for('login') }}" class="sidebar-link">
+                <button type="button">Back</button>
+            </a>
+        </div>
     </form>
+</div>
+<div class="flash-messages">
+    <!-- Aquí se mostrarán los mensajes flash -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul>
+                {% for category, message in messages %}
+                    <li class="{{ category }}">{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
 </div>
 </body>
 </html>
