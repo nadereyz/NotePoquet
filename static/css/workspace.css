@@ -103,7 +103,7 @@ body {
   border-radius: 10px;
   cursor: pointer;
   -webkit-transition: all 0.5s;
-  transition: all 20s; /* LO QUE TARDA EN CERRAR */
+  transition: all 500s; /* LO QUE TARDA EN CERRAR */
   -webkit-transform-origin: 0;
   -ms-transform-origin: 0;
   transform-origin: 0;
@@ -175,5 +175,18 @@ p {
   background-color: #0056b3; /* Color al pasar el mouse */
 }
 
+.button1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 60px;
+  height: 60px;
+  border-radius: 100%;
+  border: none;
+  background-color: #FF2849;
+}
 
+.button1:hover {
+  background-color: #e52441;
+}
 
