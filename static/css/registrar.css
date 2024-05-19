@@ -1,0 +1,96 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif; 
+    background: linear-gradient(to right, #0072ff, #00c6ff);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-container {
+    background: white url('/static/images/NotePoquet.jpg') center/cover no-repeat;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 50px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    position: relative;
+    max-width: 400px; /* Ajustar el ancho máximo del contenedor */
+}
+
+.login-form {
+    padding: 20px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+}
+
+.login-form input {
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.login-form button {
+    padding: 10px;
+    background-color: #0072ff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.login-form button:hover {
+    background-color: #0056cc;
+}
+
+.back {
+    text-align: center;
+    margin-top: 10px;
+    color: #0072ff;
+    cursor: pointer;
+}
+
+.options {
+    text-align: center;
+    background-color: #0072ff;
+    margin-top: 20px;
+    color: #0072ff;
+    cursor: pointer;
+}
+
+/* Estilos para el contenedor del mensaje flash */
+.flash-messages {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    max-width: 400px;
+    padding: 10px;
+}
+
+/* Estilos para cada mensaje individual */
+.flash-messages li {
+    margin-bottom: 5px;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+/* Estilos para diferentes categorías de mensajes */
+.flash-messages .success {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.flash-messages .error {
+    background-color: #f44336;
+    color: white;
+}
+
+.flash-messages .info {
+    background-color: #2196F3;
+    color: white;
+}
