@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+    <title>Principal</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
 </head>
 <body>
@@ -15,9 +15,10 @@
                 </a>
                 <button class="sidebar-button">Eliminar espacios de trabajo antiguos</button>
                 <button class="function-button">Proyecto NotePoquet</button>
-                <a href="{{ url_for('login') }}" class="sidebar-link">
-                    <button class="function-button">Cerrar sesión</button> 
-                </a>
+                <!-- Formulario de confirmación para cerrar sesión -->
+                <form action="{{ url_for('login') }}" method="post" id="logout-form">
+                    <button type="submit" onclick="return confirm('¿Estás seguro de que deseas cerrar sesión?')" class="function-button1">Cerrar sesión</button> 
+                </form>
             </div>
         </div>
         <img src="{{ url_for('static', filename='images/NotePoquet1.png') }}" alt="Workspace curso Python" class="workspace-image">
