@@ -77,8 +77,8 @@ def registrar():
         db.session.add(new_user)
         db.session.commit()
         
-        flash('¡Registro exitoso! Por favor, inicia sesión.', 'success')
-        return redirect(url_for('login'))
+        flash('¡Registro exitoso!', 'success')
+        return redirect(url_for('registrar'))
     
     return render_template('registrar.html')
 
