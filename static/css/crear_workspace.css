@@ -60,7 +60,22 @@ body {
   border-radius: 45px;
   transition: all 0.3s;
   cursor: pointer;
-  background: rgba(255, 255, 255, 0.747);
+  background: rgba(0, 255, 85, 0.747);
+  font-size: 1.2em;
+  font-weight: 550;
+  font-family: 'Montserrat', sans-serif;
+  margin-bottom: 10px; /* Asegúrate de que haya suficiente espacio entre los botones */
+}
+
+.buton2 {
+  width: 150px;
+  height: 60px;
+  text-align: center;
+  border: 3px solid #315cfd;
+  border-radius: 45px;
+  transition: all 0.3s;
+  cursor: pointer;
+  background: rgba(250, 1, 1, 0.747);
   font-size: 1.2em;
   font-weight: 550;
   font-family: 'Montserrat', sans-serif;
