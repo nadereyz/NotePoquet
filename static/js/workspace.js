@@ -1,3 +1,4 @@
+// Función para agregar una lista
 function agregarLista(button) {
     var form = button.closest('form');
     var nombre = form.querySelector('.nombreLista').value;
@@ -12,6 +13,7 @@ function agregarLista(button) {
     }
 }
 
+// Función para agregar una tarea
 function addTask() {
     var input = document.getElementById('taskInput');
     var taskList = document.getElementById('taskList');
@@ -24,18 +26,19 @@ function addTask() {
         // Limpiar el campo de entrada después de agregar la tarea
         input.value = '';
     } else {
-        alert('Please enter a task.');
+        alert('Por favor, ingrese una tarea.');
     }
 }
 
+// Manejar el envío del formulario de tarea
 document.getElementById('taskForm').onsubmit = function(event) {
     event.preventDefault(); // Evitar la recarga de la página
     var title = document.getElementById('titleInput').value;
     var description = document.getElementById('descriptionInput').value;
 
     if (title && description) {
-        // Aquí puedes usar fetch o XMLHttpRequest para enviar los datos al servidor
-        fetch('/add_task', {
+        // Enviar los datos al servidor
+        fetch('/workspace', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
@@ -44,10 +47,45 @@ document.getElementById('taskForm').onsubmit = function(event) {
         })
         .then(response => response.text())
         .then(html => {
-            // Puedes elegir actualizar la página o simplemente añadir el elemento a la lista
+            // Añadir la tarea a la lista sin recargar la página
             document.getElementById('taskList').innerHTML += '<li>' + title + ': ' + description + '</li>';
         });
     } else {
-        alert('Please fill in both fields.');
+        alert('Por favor, complete ambos campos.');
     }
 };
+
+// Manejar el evento de mover tarea a "En progreso"
+document.addEventListener('DOMContentLoaded', function() {
+    var moveToInProgressButtons = document.querySelectorAll('.move-to-in-progress');
+    moveToInProgressButtons.forEach(function(button) {
+        button.addEventListener('click', function(event) {
+            event.preventDefault();
+            var taskId = button.getAttribute('data-task-id');
+            moveTaskToInProgress(taskId);
+        });
+    });
+});
+
+function moveTaskToInProgress(taskId) {
+    var taskRow = document.getElementById('task_row_' + taskId);
+    var inProgressContainer = document.querySelector('#in-progress-body tbody');
+    inProgressContainer.appendChild(taskRow);
+
+    // Hacer una solicitud AJAX al servidor
+    fetch('/start_task/' + taskId, {
+        method: 'POST',
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.text();
+    })
+    .then(data => {
+        console.log('Tarea movida a en progreso:', data);
+    })
+    .catch(error => {
+        console.error('Error al mover la tarea:', error);
+    });
+}
