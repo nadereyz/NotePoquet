@@ -36,6 +36,17 @@ body {
   font-size: 16px; /* Fuente más grande para mejorar la legibilidad */
 }
 
+.function-button1 {
+  background-color: #ff0000;
+  color: white;
+  padding: 15px; /* Aumentado de 10px a 15px */
+  margin-bottom: 10px;
+  border: none;
+  border-radius: 5px;
+  width: 100%;
+  font-size: 16px; /* Fuente más grande para mejorar la legibilidad */
+  }
+
 
 .workspace-image {
   width: 150px; /* Ajusta esto según el tamaño deseado para la imagen */
