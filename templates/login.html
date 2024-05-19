@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Login Minimalista</title>
+<title>Login</title>
 <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
 </head>
 <body>
 <div class="login-container">
     <form class="login-form" action="/" method="post">
-        <input type="text" placeholder="Usuario" name="usuario" required>
+        <input type="text" placeholder="username" name="username" required>
         <input type="password" placeholder="Contraseña" name="password" required>
         <button type="submit">Entrar</button>
         <div class="options">
