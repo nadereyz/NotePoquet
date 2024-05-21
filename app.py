@@ -1,15 +1,16 @@
 from functools import wraps
-from flask import Flask, render_template, request, redirect, url_for, flash, session
+from flask import Flask, render_template, request, redirect, url_for, flash, session, abort
 from flask_sqlalchemy import SQLAlchemy
 from db import db, init_db
 from sqlalchemy import Enum
 from sqlalchemy.orm import relationship
-from flask_login import current_user, LoginManager, login_required, login_user, UserMixin
+from flask_login import current_user, LoginManager, login_required, login_user, UserMixin, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
 
 
 app = Flask(__name__)
 login_manager = LoginManager(app)
+
 
 app.config['SECRET_KEY'] = '02465b5fb42354857676a27e1446b72ef503ee4e686a6cf4'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
@@ -19,20 +20,33 @@ class Task(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), nullable=False)
     description = db.Column(db.String(200))
-    status = db.Column(Enum('Nueva', 'En progreso', 'Finalizada', name="status"), default='Nueva', nullable=False)
+    status = db.Column(db.Enum('Nueva', 'En progreso', 'Finalizada', name="status"), default='Nueva', nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    user = relationship("User", back_populates="tasks")
+    user = db.relationship("User", back_populates="tasks")
+    proyecto_id = db.Column(db.Integer, db.ForeignKey('proyecto.id'))  
+    proyecto = db.relationship("Proyecto", back_populates="tareas")  
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(128), nullable=False)
-    workspace_name = db.Column(db.String(100))  # Agregar campo para el nombre del espacio de trabajo
-    tasks = relationship("Task", back_populates="user")
+    workspace_name = db.Column(db.String(100))
+    tasks = db.relationship("Task", back_populates="user")
+    proyectos = db.relationship("Proyecto", back_populates="user")  
 
     def is_active(self):
         return True
+
+class Proyecto(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    nombre = db.Column(db.String(100), nullable=False)
+    descripcion = db.Column(db.String(200))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user = db.relationship("User", back_populates="proyectos")
+    tareas = db.relationship("Task", back_populates="proyecto")  
+
+
 
 @app.route('/move_to_progress/<int:task_id>', methods=['POST'])
 @login_required
@@ -106,7 +120,7 @@ def add_task():
 @app.route('/', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
-        print("Usuario autenticado:", current_user.username)  # Depuración
+        print("Usuario autenticado:", current_user.username)  
 
     if request.method == 'POST':
         username = request.form.get('username')
@@ -114,37 +128,87 @@ def login():
         user = User.query.filter_by(username=username).first()
         if user and check_password_hash(user.password, password):
             login_user(user)
-            print("Usuario autenticado:", current_user.username)  # Depuración
+            print("Usuario autenticado:", current_user.username) 
             return redirect(url_for('home'))
         else:
             flash('Credenciales incorrectas. Por favor, inténtalo de nuevo.', 'error')
     return render_template('login.html')
 
 
-
-
-
 @app.route('/home')
 @login_required
 def home():
-    return render_template('home.html')
+    workspace_name = current_user.workspace_name
+    return render_template('home.html', workspace_name=workspace_name)
 
 @app.route('/workspace', methods=['GET', 'POST'])
 @login_required
 def workspace():
-    if request.method == 'POST':
-        title = request.form.get('title')
-        description = request.form.get('description')
-        if title and description:
-            new_task = Task(title=title, description=description, status="Nueva", user_id=current_user.id)
-            db.session.add(new_task)
-            db.session.commit()
-            return redirect(url_for('workspace'))
+    proyecto = Proyecto.query.filter_by(user_id=current_user.id).first()
 
-    # Obtener el nombre del espacio de trabajo del usuario actual
+    if request.method == 'POST':
+        if 'project_name' in request.form:
+            project_name = request.form.get('project_name')
+            description = request.form.get('description')
+            if project_name and description:
+                if proyecto:
+                    flash('Ya tienes un proyecto creado. No puedes crear más de un proyecto.', 'error')
+                else:
+                    new_project = Proyecto(nombre=project_name, descripcion=description, user_id=current_user.id)
+                    db.session.add(new_project)
+                    db.session.commit()
+                return redirect(url_for('workspace'))
+
+        if 'delete_project' in request.form:
+            if proyecto:
+                db.session.delete(proyecto)
+                db.session.commit()
+                flash('El proyecto ha sido eliminado correctamente.', 'success')
+                current_user.workspace_name = "Sin proyecto"
+                db.session.commit()
+                return redirect(url_for('workspace'))
+            else:
+                flash('No tienes un proyecto para eliminar.', 'error')
+
     workspace_name = current_user.workspace_name
     tasks = Task.query.filter_by(user_id=current_user.id).all()
-    return render_template('workspace.html', workspace_name=workspace_name, tasks=tasks)
+
+    return render_template('workspace.html', workspace_name=workspace_name, tasks=tasks, proyecto=proyecto)
+
+@app.route('/delete_project', methods=['POST'])
+@login_required
+def delete_project():
+    project = Proyecto.query.filter_by(user_id=current_user.id).first()
+
+    if project:
+        tasks_to_delete = Task.query.filter_by(proyecto_id=project.id).all()
+        
+        for task in tasks_to_delete:
+            db.session.delete(task)
+        
+        db.session.delete(project)
+        db.session.commit()
+        
+        flash('El proyecto y todas sus tareas asociadas han sido eliminados correctamente.', 'success')
+    else:
+        flash('No se encontró el proyecto o no tienes permiso para eliminarlo.', 'error')
+    
+    return redirect(url_for('home'))
+
+
+
+
+
+
+@app.route('/logout', methods=['POST'])
+@login_required
+def logout():
+    logout_user()
+    flash('Has cerrado sesión correctamente.', 'success')
+    return redirect(url_for('login'))
+
+
+
 
 @app.route('/update_task/<int:task_id>', methods=['POST'])
 @login_required
@@ -210,6 +274,8 @@ def crear_workspace():
         else:
             flash('Debe ingresar un nombre para el espacio de trabajo.', 'error')
     return render_template('crear_workspace.html')
+
+
 
 @app.route('/recuperar')
 def recuperar():
