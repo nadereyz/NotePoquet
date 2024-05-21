@@ -16,7 +16,7 @@ body {
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     position: relative;
-    max-width: 400px; /* Ajustar el ancho máximo del contenedor */
+    max-width: 400px;
 }
 
 .login-form {
@@ -61,7 +61,6 @@ body {
     cursor: pointer;
 }
 
-/* Estilos para el contenedor del mensaje flash */
 .flash-messages {
     position: absolute;
     bottom: 20px;
@@ -72,14 +71,12 @@ body {
     padding: 10px;
 }
 
-/* Estilos para cada mensaje individual */
 .flash-messages li {
     margin-bottom: 5px;
     padding: 10px;
     border-radius: 5px;
 }
 
-/* Estilos para diferentes categorías de mensajes */
 .flash-messages .success {
     background-color: #4CAF50;
     color: white;

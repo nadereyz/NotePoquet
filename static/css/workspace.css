@@ -15,9 +15,9 @@ body {
 
 .page-container {
   display: flex;
-  align-items: center; /* Centra verticalmente */
-  justify-content: center; /* Centra horizontalmente */
-  height: 100vh; /* Usa al menos el alto de la ventana del navegador */
+  align-items: center;
+  justify-content: center; 
+  height: 100vh; 
 }
 
 .ventana {
@@ -46,13 +46,15 @@ body {
   display: flex;
   -webkit-box-align: center;
   -ms-flex-align: center;
-  align-items: center;
+  align-items: flex-start;
   -webkit-box-pack: center;
   -ms-flex-pack: center;
-  justify-content: center;
+  justify-content: flex-end;
   color: #000;
+  text-align: right;
 }
 
+/* Despues elimino este parte de codigo de .book1 */
 .book1 {
   margin: 0 auto;
   position: relative;
@@ -69,6 +71,7 @@ body {
   color: #000;
 }
 
+/* Despues elimino este parte de codigo de .book2 */
 .book2 {
   position: relative;
   border-radius: 10px;
@@ -103,7 +106,7 @@ body {
   border-radius: 10px;
   cursor: pointer;
   -webkit-transition: all 0.5s;
-  transition: all 500s; /* LO QUE TARDA EN CERRAR */
+  transition: all 4s;
   -webkit-transform-origin: 0;
   -ms-transform-origin: 0;
   transform-origin: 0;
@@ -130,7 +133,7 @@ body {
 
 .books-container {
   display: flex;
-  justify-content: space-between; /* Alinea los libros con las columnas correspondientes */
+  justify-content: space-between; 
 }
 
 
@@ -190,3 +193,15 @@ p {
   background-color: #e52441;
 }
 
+textarea.form-control {
+  min-height: 100px; 
+  resize: vertical;
+}
+
+
+.truncated-text {
+  white-space: pre-wrap; 
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 120px;
+}

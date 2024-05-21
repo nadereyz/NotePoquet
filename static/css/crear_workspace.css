@@ -6,23 +6,23 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start; /* Asegura que el contenido empiece desde la parte superior */
-  background-image: url('/static/images/cuadro.jpg'); /* Ajusta la ruta según la estructura de tus carpetas */
+  justify-content: flex-start; 
+  background-image: url('/static/images/cuadro.jpg'); 
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
 }
 
 .workspace-image {
-  width: 230px; /* Ajusta el tamaño según tus necesidades */
+  width: 230px;
   height: auto;
-  margin-top: 230px; /* Espacio desde la parte superior de la página */
+  margin-top: 230px;
 }
 
 .main-container {
-  width: 100%; /* Toma todo el ancho disponible */
+  width: 100%;
   display: flex;
-  justify-content: center; /* Centra el contenido horizontalmente */
+  justify-content: center; 
 }
 
 .sidebar {
@@ -34,7 +34,7 @@ body {
 }
 
 .sidebar-button, .function-button {
-  width: 100%; /* Ocupa todo el ancho de la barra lateral */
+  width: 100%;
   padding: 10px;
   margin-bottom: 20px;
   background-color: #1284e1;
@@ -46,8 +46,8 @@ body {
 
 .container {
   display: flex;
-  flex-direction: column; /* Mantiene los elementos en columnas pero permite a los botones estar en la misma línea */
-  align-items: center; /* Centra los elementos horizontalmente */
+  flex-direction: column;
+  align-items: center; 
   text-align: center;
 }
 
@@ -64,7 +64,7 @@ body {
   font-size: 1.2em;
   font-weight: 550;
   font-family: 'Montserrat', sans-serif;
-  margin-bottom: 10px; /* Asegúrate de que haya suficiente espacio entre los botones */
+  margin-bottom: 10px;
 }
 
 .buton2 {
@@ -79,7 +79,7 @@ body {
   font-size: 1.2em;
   font-weight: 550;
   font-family: 'Montserrat', sans-serif;
-  margin-bottom: 10px; /* Asegúrate de que haya suficiente espacio entre los botones */
+  margin-bottom: 10px;
 }
 
 .buton:hover {
