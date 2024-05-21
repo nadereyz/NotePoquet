@@ -27,8 +27,8 @@
                     {% for task in tasks %}
                         {% if task.status == 'Nueva' %}
                         <tr>
-                            <td>{{ task.title }}</td>
-                            <td>{{ task.description }}</td>
+                            <td class="truncated-text" title="{{ task.title }}">{{ task.title | truncate(15, True) }}</td>
+                            <td class="truncated-text" title="{{ task.description }}">{{ task.description | truncate(30, True) }}</td>
                             <td>
                                 <form action="{{ url_for('move_to_progress', task_id=task.id) }}" method="POST">
                                     <button type="submit" class="btn btn-success" data-task-id="{{ task.id }}">En Progreso</button>
@@ -64,7 +64,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="editDescription{{ task.id }}" class="form-label">Descripción de la tarea</label>
-                                <input type="text" class="form-control" id="editDescription{{ task.id }}" name="description" placeholder="Descripción de la tarea" value="{{ task.description }}" required>
+                                <textarea class="form-control" id="editDescription{{ task.id }}" name="description" placeholder="Descripción de la tarea" rows="3" required>{{ task.description }}</textarea>
                             </div>
                             <button type="submit" class="btn btn-primary">Guardar Cambios</button>
                         </form>
@@ -74,40 +74,39 @@
         </div>
         {% endfor %}
 
-            <div class="book" style="background-color: aqua;">
-                <table class="table">
-                    <thead>
+        <div class="book" style="background-color: aqua;">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Título</th>
+                        <th scope="col">Descripción</th>
+                        <th scope="col">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for task in tasks %}
+                        {% if task.status == 'En progreso' %}
                         <tr>
-                            <th scope="col">Título</th>
-                            <th scope="col">Descripción</th>
-                            <th scope="col">Acciones</th>
+                            <td class="truncated-text" title="{{ task.title }}">{{ task.title | truncate(15, True) }}</td>
+                            <td class="truncated-text" title="{{ task.description }}">{{ task.description | truncate(30, True) }}</td>
+                            <td>
+                                <form action="{{ url_for('finish_task', task_id=task.id) }}" method="POST">
+                                    <button type="submit" class="btn btn-success">Finalizar</button>
+                                </form>
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editTaskModal{{ task.id }}">Editar</button>
+                                <form action="{{ url_for('delete_task', task_id=task.id) }}" method="POST" style="display:inline;">
+                                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                                </form>
+                            </td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        {% for task in tasks %}
-                            {% if task.status == 'En progreso' %}
-                            <tr>
-                                <td>{{ task.title }}</td>
-                                <td>{{ task.description }}</td>
-                                <td>
-                                    <form action="{{ url_for('finish_task', task_id=task.id) }}" method="POST">
-                                        <button type="submit" class="btn btn-danger">Finalizar</button>
-                                    </form>
-                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editTaskModal{{ task.id }}">Editar</button>
-                                    <form action="{{ url_for('delete_task', task_id=task.id) }}" method="POST" style="display:inline;">
-                                        <button type="submit" class="btn btn-danger">Eliminar</button>
-                                    </form>
-                                </td>
-                            </tr>
-                            {% endif %}
-                        {% endfor %}
-                    </tbody>
-                </table>
-                <div class="cover">
-                    <p>En proceso</p>
-                </div>
+                        {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div class="cover">
+                <p>En proceso</p>
             </div>
-
+        </div>
 
         <div class="book2" style="background-color: chocolate;">
             <div class="book" style="background-color: aqua;">
@@ -123,8 +122,8 @@
                         {% for task in tasks %}
                             {% if task.status == 'Finalizada' %}
                             <tr>
-                                <td>{{ task.title }}</td>
-                                <td>{{ task.description }}</td>
+                                <td class="truncated-text" title="{{ task.title }}">{{ task.title | truncate(15, True) }}</td>
+                                <td class="truncated-text" title="{{ task.description }}">{{ task.description | truncate(30, True) }}</td>
                                 <td>
                                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editTaskModal{{ task.id }}">Editar</button>
                                     <form action="{{ url_for('delete_task', task_id=task.id) }}" method="POST" style="display:inline;">
@@ -143,14 +142,24 @@
         </div>
     </div>
 
+
     <div class="container1">
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#taskModal">Crear Tarea</button>
         <button class="btn btn-primary">Invitar</button>
-        <button class="btn btn-primary">Exportar PDF</button>
-        <button class="btn btn-danger">Eliminar</button>
-        <form action="{{ url_for('login') }}" method="post" id="logout-form">
-            <button class="btn btn-primary" type="submit" onclick="return confirm('¿Estás seguro de que deseas cerrar sesión?')" class="function-button1">Cerrar sesión</button> 
+        <form action="{{ url_for('delete_project') }}" method="POST" style="display:inline;">
+            <button class="btn btn-danger" type="submit" onclick="return confirm('¿Estás seguro de que deseas eliminar este proyecto?')">Eliminar Proyecto</button>
         </form>
+
+        <a href="{{ url_for('home') }}" class="sidebar-link">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#taskModal">Atras</button>
+        </a>
+
+
+
+        
+        <form action="{{ url_for('logout') }}" method="post" id="logout-form">
+            <button class="btn btn-primary" type="submit" onclick="return confirm('¿Estás seguro de que deseas cerrar sesión?')" class="function-button1">Cerrar sesión</button>
+        </form>        
     </div>
 
     <div class="modal fade" id="taskModal" tabindex="-1" aria-labelledby="taskModalLabel" aria-hidden="true">
@@ -168,7 +177,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="description" class="form-label">Descripción de la tarea</label>
-                            <input type="text" class="form-control" id="description" name="description" placeholder="Descripción de la tarea" required>
+                            <textarea class="form-control" id="description" name="description" placeholder="Descripción de la tarea" rows="3" required></textarea>
                         </div>
                         <button type="submit" class="btn btn-primary">Crear Tarea</button>
                     </form>
